@@ -1,0 +1,16 @@
+name: Echo Hi Workflow
+
+on:
+  workflow_call: # Makes this workflow reusable
+    inputs:
+      name:
+        description: 'Name to greet'
+        required: false
+        default: 'World'
+
+jobs:
+  echo_hi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Hi
+        run: echo "Hi ${{ inputs.name }}"
