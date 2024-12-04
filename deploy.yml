@@ -1,0 +1,37 @@
+name: Reusable Deployment Workflow
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+    secrets:
+      DEPLOY_SECRET:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}  # Specifies the environment for this job
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Display Deployment Information
+        run: echo "Deploying version ${{ inputs.version }} to the ${{ inputs.environment }} environment."
+
+      # Your deployment steps go here, using ${{ inputs.version }} and secrets
+      - name: Deploy Application
+        run: |
+          echo "Running deployment to ${{ inputs.environment }} with version ${{ inputs.version }}"
+          # Add deployment commands here
+
+      - name: Use Deployment Secret
+        run: echo "Using secret for ${{ inputs.environment }}"
+        env:
+          DEPLOY_SECRET: ${{ secrets.DEPLOY_SECRET }}
