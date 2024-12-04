@@ -62,6 +62,3 @@ jobs:
         run: |
           git tag $NEXT_TAG
           git push origin $NEXT_TAG
-
-    outputs:
-     next_tag: ${{ steps.increment_version.outputs.next_tag }}
