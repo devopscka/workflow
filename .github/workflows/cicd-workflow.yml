@@ -23,8 +23,8 @@ on:
 jobs:
   versioning:
     uses: .github/workflows/semantic-version-tagging.yml@main
-    outputs:
-      next_tag: ${{ steps.versioning.outputs.next_tag }}
+    # outputs:
+    #   next_tag: ${{ steps.versioning.outputs.next_tag }}
 
   build-and-push-image:
     needs: versioning
@@ -33,4 +33,4 @@ jobs:
       environment: ${{ inputs.environment }}
       acr_name: ${{ inputs.acr_name }}
       helm_chart_path: ${{ inputs.helm_chart_path }}
-      version_tag: ${{ needs.versioning.outputs.next_tag }}
+      # version_tag: ${{ needs.versioning.outputs.next_tag }}
