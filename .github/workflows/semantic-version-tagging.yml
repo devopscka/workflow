@@ -1,11 +1,13 @@
 name: Semantic Version Tagging
-
 on:
   workflow_call:
     inputs:
-      branches:
-        type: array
-        description: List of branches to trigger the workflow
+      branch:
+        required: true
+        type: string
+        default: "main"
+    secrets:
+      GITHUB_TOKEN:
         required: true
 
 jobs:
@@ -23,10 +25,9 @@ jobs:
         id: determine_version_part
         run: |
           VERSION_PART="patch"
-          BRANCH_NAME="${GITHUB_REF##*/}"
-          if [[ "${BRANCH_NAME}" == "main" ]]; then
+          if [[ "${{ inputs.branch }}" == "main" ]]; then
             VERSION_PART="minor"
-          elif [[ "${BRANCH_NAME}" =~ ^hotfix/ ]]; then
+          elif [[ "${{ inputs.branch }}" =~ ^hotfix/ ]]; then
             VERSION_PART="patch"
           fi
           echo "VERSION_PART=$VERSION_PART" >> $GITHUB_ENV
@@ -58,33 +59,9 @@ jobs:
           echo "NEXT_TAG=$NEXT_TAG" >> $GITHUB_ENV
           echo "next_tag=$NEXT_TAG" >> $GITHUB_ENV
 
-
-          # Generate the next tag
-          NEXT_TAG="v${MAJOR}.${MINOR}.${PATCH}"
-          echo "Next tag: $NEXT_TAG"
-          echo "NEXT_TAG=$NEXT_TAG" >> $GITHUB_ENV
-
-
       - name: Create and push new tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Tag the commit with the next version tag
           git tag $NEXT_TAG
-          # Push the new tag to the repository
           git push origin $NEXT_TAG
-
-      - name: Print the new tag
-        run: echo "Tagged with ${{ env.NEXT_TAG }}"
-
-
-
-
-
-
-
-
-
-
-### usage
-
