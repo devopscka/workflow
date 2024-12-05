@@ -22,7 +22,7 @@ on:
 
 jobs:
   versioning:
-    uses: /devopscka/workflow/.github/workflows/semantic-version-tagging.yml@main
+    uses: devopscka/workflow/.github/workflows/semantic-version-tagging.yml@main
     # outputs:
     #   next_tag: ${{ steps.versioning.outputs.next_tag }}
 
