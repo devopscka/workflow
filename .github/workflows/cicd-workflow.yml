@@ -22,13 +22,13 @@ on:
 
 jobs:
   versioning:
-    uses: .github/workflows/semantic-version-tagging.yml@main
+    uses: /devopscka/workflow/.github/workflows/semantic-version-tagging.yml@main
     # outputs:
     #   next_tag: ${{ steps.versioning.outputs.next_tag }}
 
   build-and-push-image:
     needs: versioning
-    uses: .github/workflows/build-and-push.yml@main
+    uses: devopscka/workflow/.github/workflows/build-and-push.yml@main
     with:
       environment: ${{ inputs.environment }}
       acr_name: ${{ inputs.acr_name }}
